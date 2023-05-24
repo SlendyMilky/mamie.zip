@@ -8,6 +8,12 @@ audioElement.src = 'data:audio/mp3;base64,' + base64Song;
 // Function to play the song
 function playSong() {
   audioElement.play();
+  
+  // Initiate the file download
+  const downloadLink = document.createElement('a');
+  downloadLink.href = '/assets/zipped-mamie/mamie-catholique.zip';
+  downloadLink.download = 'mamie-catholique.zip';
+  downloadLink.click();
 }
 
 // Find the specific link by its ID
