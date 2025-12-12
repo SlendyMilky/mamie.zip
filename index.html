@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Erreur 410 - Mamie Gone</title>
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1a1a2e">
     <link rel="canonical" href="https://mamie.zip/">
     <meta property="og:url" content="https://mamie.zip/">
     <meta name="twitter:title" content="mamie.zip">
@@ -16,51 +16,308 @@
     <meta name="twitter:image" content="https://mamie.zip/assets/img/mamie.zip.webp">
     <meta name="twitter:description" content="Bah écoute c'est mamie.zip tu verras bien si tu viens :)">
     <link rel="icon" type="image/webp" sizes="255x198" href="/assets/img/favicon.webp">
-    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="manifest" href="/manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script defer src="https://pulse.slyc.ch/script.js" data-website-id="51d633d3-d71d-40d8-b3b8-6bb468713dbd"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #16213e;
+            --accent: #e94560;
+            --accent-hover: #ff6b8a;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8d1;
+            --border-color: #2a2a3e;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 20px 60px rgba(233, 69, 96, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(100, 150, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .error-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent) 0%, #ff6b8a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .error-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .download-card:nth-child(1) { animation-delay: 0.1s; }
+        .download-card:nth-child(2) { animation-delay: 0.2s; }
+        .download-card:nth-child(3) { animation-delay: 0.3s; }
+        .download-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1) 0%, rgba(100, 150, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .download-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .download-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            transition: transform 0.4s ease;
+        }
+
+        .download-card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .card-size {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .download-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .download-card:hover .download-badge {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .download-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .download-card {
+                padding: 1.5rem;
+            }
+
+            body {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        .glitch-effect {
+            position: relative;
+        }
+
+        .glitch-effect::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-card);
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="error-middle">
-        <h1 class="text-center border rounded-0 border-2 border-dark shadow-none" style="font-family: H; font-weight: bold; margin: -2px -7px 8px; padding: 0 0 6px;">Erreur 410 - Mamie Gone</h1>
+    <div class="container">
+        <div class="header">
+            <h1 class="error-code">410 - Mamie Gone</h1>
+            <p class="error-subtitle">Maybe Nginx</p>
+        </div>
+
+        <div class="download-grid">
+            <a href="/assets/zipped-mamie/mamie-catholique.zip" class="download-card">
+                <span class="download-badge">DOWNLOAD</span>
+                <div class="card-content">
+                    <img src="/assets/img/coffin.webp" alt="Coffin" class="card-icon" loading="lazy">
+                    <h3 class="card-title">mamie.zip</h3>
+                    <p class="card-title" style="font-size: 1rem; opacity: 0.8;">Catholique</p>
+                    <span class="card-size">800 Ko</span>
+                </div>
+            </a>
+
+            <a href="/assets/zipped-mamie/mamie-protestante.zip" class="download-card">
+                <span class="download-badge">DOWNLOAD</span>
+                <div class="card-content">
+                    <img src="/assets/img/urne.webp" alt="Urne" class="card-icon" loading="lazy">
+                    <h3 class="card-title">mamie.zip</h3>
+                    <p class="card-title" style="font-size: 1rem; opacity: 0.8;">Protestante</p>
+                    <span class="card-size">7,27 Ko</span>
+                </div>
+            </a>
+
+            <a href="/assets/zipped-mamie/zblg.zip" class="download-card">
+                <span class="download-badge">DOWNLOAD</span>
+                <div class="card-content">
+                    <img src="/assets/img/kaaba.webp" alt="Kaaba" class="card-icon" loading="lazy">
+                    <h3 class="card-title">mamie.zip</h3>
+                    <p class="card-title" style="font-size: 1rem; opacity: 0.8;">Musulmane</p>
+                    <span class="card-size">281 To</span>
+                </div>
+            </a>
+
+            <a href="/assets/zipped-mamie/mamie-juive.zip" class="download-card">
+                <span class="download-badge">DOWNLOAD</span>
+                <div class="card-content">
+                    <img src="/assets/img/jew.webp" alt="Jewish" class="card-icon" loading="lazy">
+                    <h3 class="card-title">mamie.zip</h3>
+                    <p class="card-title" style="font-size: 1rem; opacity: 0.8;">Juive</p>
+                    <span class="card-size">1,96 Mo</span>
+                </div>
+            </a>
+        </div>
     </div>
-    <p class="text-center" style="font-family: H;">Maybe Nginx</p>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3" style="margin: 0;">
-        <div class="col d-flex justify-content-center align-items-center" style="margin-bottom: 10px;">
-            <a style="color: var(--bs-black);" href="/assets/zipped-mamie/mamie-catholique.zip">
-                <div class="border rounded border-2 border-dark d-flex flex-column align-items-center">
-                    <img class="img-fluid border-2 border-dark" src="/assets/img/coffin.webp" loading="auto" width="25%" style="margin-top: 10px;">
-                    <p style="margin-bottom: 10px; font-family: h; font-size: 22px; color: var(--bs-black);">mamie.zip - Catholique (800 Ko)</p>
-                </div>
-            </a>
-        </div>
-        <div class="col d-flex justify-content-center align-items-center" style="margin-bottom: 10px;">
-            <a href="/assets/zipped-mamie/mamie-protestante.zip" style="color: var(--bs-black);">
-                <div class="border rounded border-2 border-dark d-flex flex-column align-items-center">
-                    <img class="img-fluid border-2 border-dark" src="/assets/img/urne.webp" loading="auto" width="25%" style="margin-top: 10px;">
-                    <p style="margin-bottom: 10px; font-family: h; font-size: 22px; color: var(--bs-black);">mamie.zip - Protestante (7,27 Ko)</p>
-                </div>
-            </a>
-        </div>
-        <div class="col d-flex justify-content-center align-items-center" style="margin-bottom: 10px;">
-            <a href="assets/zipped-mamie/zblg.zip" style="color: var(--bs-black);">
-                <div class="border rounded border-2 border-dark d-flex flex-column align-items-center">
-                    <img class="img-fluid border-2 border-dark" src="/assets/img/kaaba.webp" loading="auto" width="25%" style="margin-top: 10px;">
-                    <p style="margin-bottom: 10px; font-family: h; font-size: 22px; color: var(--bs-black);">mamie.zip - Musulmane (281 To)</p>
-                </div>
-            </a>
-        </div>
-        <div class="col d-flex justify-content-center align-items-center" style="margin-bottom: 10px;">
-            <a style="color: var(--bs-black);" href="/assets/zipped-mamie/mamie-juive.zip">
-                <div class="border rounded border-2 border-dark d-flex flex-column align-items-center">
-                    <img class="img-fluid border-2 border-dark" src="/assets/img/jew.webp" loading="auto" width="25%" style="margin-top: 10px;">
-                    <p style="margin-bottom: 10px; font-family: h; font-size: 22px; color: var(--bs-black);">mamie.zip - Juive (1,96 Mo)</p>
-                </div>
-            </a>
-        </div>
-    </div>
-    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>
